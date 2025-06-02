@@ -1,0 +1,57 @@
+# Google Cloud Landing Zone Configuration
+# Copy this file to terraform.tfvars and customize the values
+
+# Organization Configuration
+org_domain             = "thinkbank.co.za"
+billing_account        = "YOUR-BILLING-ACCOUNT-ID"
+org_id                 = "YOUR-ORG-ID"
+
+# Shared Services Configuration
+shared_services_bu      = "iss"
+shared_services_team    = "cet"
+shared_services_project = "glz001"
+
+# Network Configuration
+gcp_cidr_range         = "10.245.0.0/17"
+onprem_cidr_ranges     = ["10.0.0.0/8", "172.16.0.0/12"]
+cloud_router_asn       = "65001"  # Replace with your actual private ASN
+
+# Regions Configuration
+primary_region         = "africa-south1"
+dr_region             = "europe-west2"
+
+# Admin Configuration
+admin_group_email     = "gcp-admins@thinkbank.co.za"
+terraform_sa_name     = "terraform-automation"
+
+# Security Configuration
+enable_vpc_service_controls = true
+enable_cmek                = true
+enable_security_command_center = true
+
+# Tags
+default_tags = {
+  environment = "shared"
+  owner       = "platform-team"
+  project     = "landing-zone"
+}
+
+# Interconnect Attachments - Update with actual interconnect names
+interconnect_attachments = {
+  primary_attach_1 = {
+    interconnect_name  = "interconnect-jhb-1"  # Replace with actual interconnect name
+    region            = "africa-south1"
+    router_key        = "primary"
+    bandwidth         = "BPS_10G"
+    vlan_id          = 100  # Coordinate with network team
+    candidate_subnets = ["169.254.100.0/29"]  # BGP peering subnet
+  }
+  primary_attach_2 = {
+    interconnect_name  = "interconnect-jhb-2"  # Replace with actual interconnect name
+    region            = "africa-south1"
+    router_key        = "primary"
+    bandwidth         = "BPS_10G"
+    vlan_id          = 101  # Coordinate with network team
+    candidate_subnets = ["169.254.101.0/29"]  # BGP peering subnet
+  }
+}
